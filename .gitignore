@@ -22,3 +22,6 @@ var/
 .vscode/
 node_modules/
 __pycache__/
+
+venv/
+.idea/
