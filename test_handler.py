@@ -6,7 +6,6 @@ from src.handler import process
 class TestHandler(unittest.TestCase):
     
     ENCRYPTED_PDF_FILE_URL = 'https://tradecred-website-assets.s3.ap-south-1.amazonaws.com/encrypted-asset.pdf'
-    # ENCRYPTED_PDF_FILE_URL = 'https://tradecred-website-assets.s3.ap-south-1.amazonaws.com/decrypted-asset.pdf'
     PASSWORD = 'PART1998'
     # PASSWORD = None
     FORMAT = 'image'
