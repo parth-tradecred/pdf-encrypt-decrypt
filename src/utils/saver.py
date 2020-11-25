@@ -35,8 +35,8 @@ def decrypt_pdfblob_save(file_blob, password, output_file):
 
 def pdf_to_img_save(pdf_file, img_file):
     print("Initiating pdf to image conversion")
-    pages = pdf2image.convert_from_bytes(pdf_file.read(), 500, poppler_path='/opt/bin/poppler')
-    # pages = convert_from_bytes(pdf_file.read(), 500)
+    pages = pdf2image.convert_from_bytes(pdf_file.read(), poppler_path='/opt/bin/poppler')
+    # pages = pdf2image.convert_from_bytes(pdf_file.read())
     for page in pages:
         page.save(img_file, 'JPEG')
         print("File Saved")

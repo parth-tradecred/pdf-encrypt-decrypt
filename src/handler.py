@@ -65,9 +65,10 @@ def process(file_url, password, file_format):
 
         # Bucket upload honi hai acc. to file format
         print("\nCALLING>>>>>bucketupload()")
-        pdf_file.seek(0);
+        pdf_file.seek(0)
         img_file.seek(0)
-        return_msg = bucketupload(pdf_file, img_file, file_format)
+        # return_msg = bucketupload(pdf_file, img_file, file_format)
+        return_msg = img_file.read()
 
         if return_msg is not None:
             return_flag = True
