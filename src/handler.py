@@ -4,6 +4,7 @@ from src.utils.saver import decrypt_pdfblob_save, pdf_to_img_save
 import json
 from datetime import datetime
 import boto3
+import base64
 
 
 def bucketupload(pdf_file, img_file, file_format):
@@ -39,7 +40,7 @@ def bucketupload(pdf_file, img_file, file_format):
         return None
 
 
-def process(file_url, password, file_format):
+def process(file_url, password, file_format, return_data):
     return_msg = None
     return_flag = False
     return_service = None
@@ -63,12 +64,15 @@ def process(file_url, password, file_format):
         img_file.seek(0)
         pdf_to_img_save(pdf_file, img_file)
 
-        # Bucket upload honi hai acc. to file format
-        print("\nCALLING>>>>>bucketupload()")
-        pdf_file.seek(0)
-        img_file.seek(0)
-        # return_msg = bucketupload(pdf_file, img_file, file_format)
-        return_msg = img_file.read()
+        if return_data == "url":
+            # Bucket upload honi hai acc. to file format
+            print("\nCALLING>>>>>bucketupload()")
+            pdf_file.seek(0)
+            img_file.seek(0)
+            return_msg = bucketupload(pdf_file, img_file, file_format)
+        if return_data == "image":
+            img_file.seek(0)
+            return_msg = base64.b64encode(img_file.read())
 
         if return_msg is not None:
             return_flag = True
@@ -82,11 +86,12 @@ def extract(event, context):
     body = json.loads(body)
     file_url = body.get("file_url", None)
     password = body.get("password", None)
-    file_format = body.get("format", None)
+    file_format = body.get("file_format", None)
+    return_data = body.get("return_data", None)
 
     if file_url:
         print("PROCESS INITIATED")
-        return_msg, return_flag, return_service = process(file_url, password, file_format)
+        return_msg, return_flag, return_service = process(file_url, password, file_format, return_data)
     else:
         return_msg = "No file passed"
         return_flag = False
